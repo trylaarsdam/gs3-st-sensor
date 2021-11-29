@@ -9,29 +9,31 @@ HardwareSerial SerialAT(HW_UART_RX, HW_UART_TX);
 
 void readGS3() {
 
-  while (Serial2.available() == 0) {} // wait for sensor to provide data
+  while (SerialAT.available() == 0) {} // wait for sensor to provide data
 
-  char value = Serial2.read();
+  char value = SerialAT.read();
   int index = 0;
-  while (value != CARRIAGE_RETURN) { // bail out as we now have all our data since <CR> has been detected
-    gs3Data[index] = value;
-    Serial.print(value);
+  Serial.print(value);
+  // while (value != CARRIAGE_RETURN) { // bail out as we now have all our data since <CR> has been detected
+  //   gs3Data[index] = value;
+  //   Serial.print(value);
 
-    index++;
-    while (Serial2.available() == 0) {}; // wait for more data to come in from the sensor until <CR> is detected
-    value = Serial2.read();
-  }
-  Serial.println("");
+  //   index++;
+  //   while (SerialAT.available() == 0) {}; // wait for more data to come in from the sensor until <CR> is detected
+  //   value = SerialAT.read();
+  // }
+  // Serial.println("");
 }
 
 void setup() {
   // put your setup code here, to run once:
-  SerialAT.begin(9600);
+  SerialAT.begin(1200);
   Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  //Serial.println("test");
   readGS3();
   delay(3000);
 }
