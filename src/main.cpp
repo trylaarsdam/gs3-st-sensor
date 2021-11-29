@@ -8,12 +8,10 @@ char gs3Data[25];
 HardwareSerial SerialAT(HW_UART_RX, HW_UART_TX);
 
 void readGS3() {
-
-  while (SerialAT.available() == 0) {} // wait for sensor to provide data
-
-  char value = SerialAT.read();
-  int index = 0;
-  Serial.print(value);
+  if(Serial1.available() != 0) {
+    char value = SerialAT.read();
+    Serial.print(value);
+  }
   // while (value != CARRIAGE_RETURN) { // bail out as we now have all our data since <CR> has been detected
   //   gs3Data[index] = value;
   //   Serial.print(value);
@@ -27,7 +25,7 @@ void readGS3() {
 
 void setup() {
   // put your setup code here, to run once:
-  SerialAT.begin(1200);
+  SerialAT.begin(1200, SERIAL_7N1);
   Serial.begin(9600);
 }
 
@@ -35,5 +33,4 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Serial.println("test");
   readGS3();
-  delay(3000);
 }
