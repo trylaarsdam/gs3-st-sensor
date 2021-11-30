@@ -1,14 +1,15 @@
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 #define CARRIAGE_RETURN 0x0D
 char gs3Data[25];
 
 #define HW_UART_TX D1
 #define HW_UART_RX D0
 
-HardwareSerial SerialAT(HW_UART_RX, HW_UART_TX);
+SoftwareSerial SerialAT(HW_UART_RX, HW_UART_TX);
 
 void readGS3() {
-  if(Serial1.available() != 0) {
+  while(SerialAT.available() != 0) {
     char value = SerialAT.read();
     Serial.print(value);
   }
@@ -25,7 +26,7 @@ void readGS3() {
 
 void setup() {
   // put your setup code here, to run once:
-  SerialAT.begin(1200, SERIAL_7N1);
+  SerialAT.begin(1200);
   Serial.begin(9600);
 }
 
@@ -33,4 +34,5 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Serial.println("test");
   readGS3();
+  SerialAT.println("test1234");
 }
